@@ -1,16 +1,11 @@
-# Copier Poetry
+# Copier VOLTTRON Agent
 
 [Copier](https://github.com/copier-org/copier) template
 for Python projects managed by [Poetry](https://github.com/python-poetry/poetry).
 
-:warning: I personally don't use this template anymore,
-so it is maintained by the community. I will still review and merge PRs though.
-I can add you as a contributor if you wish to maintain the template
-for the community (for personal needs, please fork instead).
-
-Also checkout [copier-pdm](https://github.com/pawamoy/copier-pdm),
-which is the same template
-but with [PDM](https://github.com/pdm-project/pdm) instead of Poetry.
+Many thanks to the project [copier poetry](https://github.com/pawamoy/copier-poetry)
+for starting this project and allowing the reuse of the codebase there.  Without this
+starting point the agent templates would not be what they are today!
 
 ## Features
 
@@ -28,7 +23,7 @@ but with [PDM](https://github.com/pdm-project/pdm) instead of Poetry.
   with [coverage](https://github.com/nedbat/coveragepy) support
 - Cross-platform tasks with [duty](https://github.com/pawamoy/duty)
 - Support for GitHub workflow and Gitlab CI
-- Python 3.6 or above
+- Python 3.8 or above
 - Auto-generated `CHANGELOG.md` from git commits (using Angular message style)
 - Auto-generated `CREDITS.md` from Python dependencies
 - All licenses from [choosealicense.com](https://choosealicense.com/appendix/)
@@ -41,14 +36,11 @@ Make sure all the
 are met, then:
 
 ```bash
-copier "https://github.com/pawamoy/copier-poetry.git" /path/to/your/new/project
+copier "https://github.com/VOLTTRON/copier-poetry-volttron-agent.git" /path/to/your/new/project
 ```
 
 Or even shorter:
 
 ```bash
-copier "gh:pawamoy/copier-poetry" /path/to/your/new/project
+copier "gh:VOLTTRON/copier-poetry-volttron-agent" /path/to/your/new/project
 ```
-
-See the [documentation](https://pawamoy.github.io/copier-poetry)
-for more details.

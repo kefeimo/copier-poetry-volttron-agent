@@ -22,9 +22,9 @@ _log = logging.getLogger(__name__)
 DEFAULT_MESSAGE = "[[ python_agent_class_name ]] Listener Message'
 
 
-class [[ python_package_import_name ]](Agent):
+class [[ python_agent_class_name ]](Agent):
     """
-    [[ python_package_import_name ]] is an example file that listens to the message bus and prints it to the log.
+    [[ python_agent_class_name ]] is an example file that listens to the message bus and prints it to the log.
     """
 
     def __init__(self, config_path, **kwargs):
@@ -44,10 +44,10 @@ class [[ python_package_import_name ]](Agent):
         runtime_limit = int(self.config.get('runtime_limit', 0))
         if runtime_limit and runtime_limit > 0:
             stop_time = datetime.datetime.now() + datetime.timedelta(seconds=runtime_limit)
-            _log.info('[[ python_package_import_name ]] agent will stop at {}'.format(stop_time))
+            _log.info('[[ python_agent_class_name ]] agent will stop at {}'.format(stop_time))
             self.core.schedule(stop_time, self.core.stop)
         else:
-            _log.info('No valid runtime_limit configured; [[ python_package_import_name ]] agent will run until manually stopped')
+            _log.info('No valid runtime_limit configured; [[ python_agent_class_name ]] agent will run until manually stopped')
 
         try:
             self._heartbeat_period = int(self._heartbeat_period)
@@ -97,7 +97,7 @@ def main():
     :return:
     """
     try:
-        vip_main([[ python_package_import_name ]], version=__version__)
+        vip_main([[ python_agent_class_name ]], version=__version__)
     except Exception as e:
         _log.exception('unhandled exception')
 
