@@ -4,7 +4,7 @@
 for Python projects managed by [Poetry](https://github.com/python-poetry/poetry).
 
 Many thanks to the project [copier poetry](https://github.com/pawamoy/copier-poetry)
-for starting this project and allowing the reuse of the codebase there.  Without this
+for starting this project and allowing the reuse of the codebase.  Without this
 starting point the agent templates would not be what they are today!
 
 ## Features
