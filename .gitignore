@@ -1,0 +1,5 @@
+.idea/
+tests/tmp/
+site/
+__pycache__/
+*.pyc
