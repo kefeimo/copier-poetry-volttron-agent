@@ -74,3 +74,13 @@ jobs:
       run: |
         pip install pre-commit
         SKIP=end-of-file-fixer,trailing-whitespace pre-commit run --all-files
+
+    # Documentation at https://github.com/marketplace/actions/publish-python-poetry-package
+    - name: Build and publish to pypi
+      uses: JRubics/poetry-publish@v1.7
+      with:
+        # These are only needed when using test.pypi
+        #repository_name: testpypi
+        #repository_url: https://test.pypi.org/legacy/
+        pypi_token: ${{ secrets.PYPI_TOKEN }}
+        ignore_dev_requirements: yes
