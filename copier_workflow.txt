@@ -1,0 +1,18 @@
+title Copier Workflow
+
+# participants
+actor User
+participant Copier
+participant Agent files
+participant "Github/Gitlab/Bitbucket/Etc" as svn
+
+User->Copier: Start Copier agent wizard (similar to vcfg experience)
+
+note over User,Copier: User answers questions to generate Agent source code from templates
+
+Copier->Agent files: Create agent directory and source files
+
+
+User->svn: Create agent remote repo
+
+User->svn: Push agent files to remote repo
