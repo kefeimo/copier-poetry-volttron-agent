@@ -1,3 +1,8 @@
+"""
+Agent documentation goes here.
+For a quick tutorial on Agent Development, see https://volttron.readthedocs.io/en/develop/developing-volttron/developing-agents/agent-development.html#agent-development
+"""
+
 import logging
 import sys
 from pprint import pformat
@@ -6,7 +11,7 @@ import datetime
 from volttron import utils
 from volttron.utils.commands import vip_main
 from volttron.client.messaging.health import STATUS_GOOD
-from volttron.client.vip.agent import Agent, Core, PubSub
+from volttron.client.vip.agent import Agent, Core, PubSub, RPC
 from volttron.client.vip.agent.subsystems.query import Query
 
 # from . import __version__
@@ -19,8 +24,28 @@ utils.setup_logging()
 _log = logging.getLogger(__name__)
 
 
+def [[ python_package_import_name ]](config_path, **kwargs):
+    """
+    Parses the Agent configuration and returns an instance of
+    the agent created using that configuration.
 
-DEFAULT_MESSAGE = "[[ python_agent_class_name ]] Message"
+    :param config_path: Path to a configuration file.
+    :type config_path: str
+    :returns: [[ python_agent_class_name ]]
+    :rtype: [[ python_agent_class_name ]]
+    """
+    try:
+        config = utils.load_config(config_path)
+    except Exception:
+        config = {}
+
+    if not config:
+        _log.info("Using Agent defaults for starting configuration.")
+
+    setting1 = int(config.get('setting1', 1))
+    setting2 = config.get('setting2', "some/random/topic")
+
+    return [[ python_agent_class_name ]](setting1, setting2, **kwargs)
 
 
 class [[ python_agent_class_name ]](Agent):
@@ -28,61 +53,107 @@ class [[ python_agent_class_name ]](Agent):
     [[ python_agent_class_name ]] is an example file that listens to the message bus and prints it to the log.
     """
 
-    def __init__(self, config_path, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, setting1=1, setting2="some/random/topic", **kwargs):
+        super([[ python_agent_class_name ]], self).__init__(**kwargs)
+         _log.debug("vip_identity: " + self.core.identity)
 
-        # retrieve configuration entries from the passed config file.  The load_config returns
-        # an empty dictionary if there is no configuration specified.
-        self.config = utils.load_config(config_path)
-
-        # Retrieve the configured arguments and set them to variables with reasonable defaults
-        # if not present.
-        self._message = self.config.get('message', DEFAULT_MESSAGE)
-        self._heartbeat_period = self.config.get('heartbeat_period',
-                                                 DEFAULT_HEARTBEAT_PERIOD)
-
+        self.setting1 = setting1
+        self.setting2 = setting2
         # Runtime limit allows the agent to stop automatically after a specified number of seconds.
-        runtime_limit = int(self.config.get('runtime_limit', 0))
-        if runtime_limit and runtime_limit > 0:
-            stop_time = datetime.datetime.now() + datetime.timedelta(seconds=runtime_limit)
+        self.runtime_limit = 0
+
+        self.default_config = {"setting1": setting1,
+                               "setting2": setting2}
+        # Set a default configuration to ensure that self.configure is called immediately to setup
+        # the agent.
+        self.vip.config.set_default("config", self.default_config)
+        # Hook self.configure up to changes to the configuration file "config".
+        self.vip.config.subscribe(self.configure, actions=["NEW", "UPDATE"], pattern="config")
+
+    def configure(self, config_name, action, contents):
+        """
+        Called after the Agent has connected to the message bus. If a configuration exists at startup
+        this will be called before onstart.
+
+        Is called every time the configuration in the store changes.
+        """
+        config = self.default_config.copy()
+        config.update(contents)
+
+        _log.debug("Configuring Agent")
+
+        try:
+            setting1 = int(config["setting1"])
+            setting2 = str(config["setting2"])
+        except ValueError as e:
+            _log.error("ERROR PROCESSING CONFIGURATION: {}".format(e))
+            return
+
+        self.setting1 = setting1
+        self.setting2 = setting2
+        self.runtime_limit = int(config.get('runtime_limit', 0))
+
+        self._set_runtime_limit()
+        self._create_subscriptions(self.setting2)
+
+    def _set_runtime_limit(self):
+        if not self.runtime_limit and self.runtime_limit > 0:
+            stop_time = datetime.datetime.now() + datetime.timedelta(seconds=self.runtime_limit)
             _log.info('[[ python_agent_class_name ]] agent will stop at {}'.format(stop_time))
             self.core.schedule(stop_time, self.core.stop)
         else:
             _log.info('No valid runtime_limit configured; [[ python_agent_class_name ]] agent will run until manually stopped')
 
-        try:
-            self._heartbeat_period = int(self._heartbeat_period)
-        except:
-            _log.warning('Invalid heartbeat period specified setting to default')
-            self._heartbeat_period = DEFAULT_HEARTBEAT_PERIOD
+    def _create_subscriptions(self, topic):
+        """
+        Unsubscribe from all pub/sub topics and create a subscription to a topic in the configuration which triggers
+        the _handle_publish callback
+        """
+        self.vip.pubsub.unsubscribe("pubsub", None, None)
 
-        # specify what log level to write to the log at.  This allows the agent output to be seen at lower
-        # levels of verbosity.
-        log_level = self.config.get('log-level', 'INFO')
-        if log_level == 'ERROR':
-            self._logfn = _log.error
-        elif log_level == 'WARN':
-            self._logfn = _log.warn
-        elif log_level == 'DEBUG':
-            self._logfn = _log.debug
-        else:
-            self._logfn = _log.info
+        self.vip.pubsub.subscribe(peer='pubsub',
+                                  prefix=topic,
+                                  callback=self._handle_publish)
 
-    @Core.receiver('onsetup')
-    def onsetup(self, sender, **kwargs):
-        # Demonstrate accessing a value from the config file
-        _log.info(self.config.get('message', DEFAULT_MESSAGE))
-        self._agent_id = self.config.get('agentid')
+    def _handle_publish(self, peer, sender, bus, topic, headers, message):
+        """
+        Callback triggered by the subscription setup using the topic from the agent's config file
+        """
+        pass
 
-    @Core.receiver('onstart')
+    @Core.receiver("onstart")
     def onstart(self, sender, **kwargs):
-        _log.debug("VERSION IS: {}".format(self.core.version()))
-        if self._heartbeat_period != 0:
-            _log.debug(f"Heartbeat starting for {self.core.identity}, published every {self._heartbeat_period}s")
-            self.vip.heartbeat.start_with_period(self._heartbeat_period)
-            self.vip.health.set_status(STATUS_GOOD, self._message)
-        query = Query(self.core)
-        _log.info('query: %r', query.query('serverkey').get())
+        """
+        This is method is called once the Agent has successfully connected to the platform.
+        This is a good place to setup subscriptions if they are not dynamic or
+        do any other startup activities that require a connection to the message bus.
+        Called after any configurations methods that are called at startup.
+
+        Usually not needed if using the configuration store.
+        """
+        # Example publish to pubsub
+        # self.vip.pubsub.publish('pubsub', "some/random/topic", message="HI!")
+
+        # Example RPC call
+        # self.vip.rpc.call("some_agent", "some_method", arg1, arg2)
+        pass
+
+    @Core.receiver("onstop")
+    def onstop(self, sender, **kwargs):
+        """
+        This method is called when the Agent is about to shutdown, but before it disconnects from
+        the message bus.
+        """
+        pass
+
+    @RPC.export
+    def rpc_method(self, arg1, arg2, kwarg1=None, kwarg2=None):
+        """
+        RPC method
+
+        May be called from another agent via self.vip.rpc.call
+        """
+        return self.setting1 + arg1 - arg2
 
     @PubSub.subscribe('pubsub', '', all_platforms=True)
     def on_match(self, peer, sender, bus, topic, headers, message):
@@ -98,12 +169,14 @@ def main():
     :return:
     """
     try:
-        vip_main([[ python_agent_class_name ]], version=__version__)
+        vip_main([[ python_package_import_name ]], version=__version__)
     except Exception as e:
         _log.exception('unhandled exception')
 
 
 if __name__ == '__main__':
     # Entry point for script
-    sys.exit(main())
-
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        pass
