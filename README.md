@@ -76,3 +76,19 @@ template version. See [documentation for this flag](https://copier.readthedocs.i
 ## Copier Workflow diagram
 
 ![Copier sequence diagram](copier_workflow.png)
+
+After you have created your Agent project with the copier template and have
+successfully installed all the dependencies, your development workflow
+would be the following:
+
+Steps:
+
+1. Modify agent code as needed.
+2. Create a local repository: `git init`
+3. Add the remote repository to your local repository: `git remote add origin <git or gitlab URL>`
+4. Stage all code changes to be committed: `git add .`
+5. Commit your changes: `git commit -m "Initial commit"`
+   * Optional: you can include pre-commit hooks as part of your development workflow so that those hooks are ran before every commit
+     * To install pre-commit hooks, run `pre-commit install` at the root level of your Agent project
+6. Push changes to the remote: `git push -u origin main`
+7. Publishing your Agent module to PyPi is automated through the continuous integration workflow provided in `~/.github/workflows/publish_to_pypi.yml` You can update that Github Workflow with your credentials to ensure that publishing to Pypi will work.
