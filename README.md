@@ -44,3 +44,7 @@ Or even shorter:
 ```bash
 copier "gh:VOLTTRON/copier-poetry-volttron-agent" /path/to/your/new/project
 ```
+
+## Copier Workflow diagram
+
+![Copier sequence diagram](copier_workflow.png)
