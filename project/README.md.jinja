@@ -46,20 +46,21 @@ follow these [instructions](https://python-poetry.org/docs/master/#installation)
 
 
 
-## Installation
+## Installation and Virtual Environment Setup
 
- To install all your dependencies and activate your virtual environment,
-follow these steps:
-
-Install the dependencies
+If you want to install all your dependencies, including dependencies to help with developing your agent, run this command:
 
 ```poetry install```
 
-Set the environment to be in your project directory
+If you want to install only the dependencies needed to run your agent, run this command:
+
+```poetry install --no-dev```
+
+Set the environment to be in your project directory:
 
 ```poetry config virtualenvs.in-project true```
 
-Activate the virtual environment
+Activate the virtual environment:
 
 ```poetry shell```
 
