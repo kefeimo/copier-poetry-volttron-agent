@@ -13,7 +13,7 @@ starting point the agent templates would not be what they are today!
 ## Prerequisites
 
 * [git v2](https://git-scm.com/)
-* Python 3
+* Python 3 (default python should point to python3)
 * [Copier](https://copier.readthedocs.io/en/stable/)
 
 
