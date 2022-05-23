@@ -48,6 +48,10 @@ follow these [instructions](https://python-poetry.org/docs/master/#installation)
 
 ## Installation and Virtual Environment Setup
 
+Set the environment to be in your project directory:
+
+```poetry config virtualenvs.in-project true```
+
 If you want to install all your dependencies, including dependencies to help with developing your agent, run this command:
 
 ```poetry install```
@@ -55,10 +59,6 @@ If you want to install all your dependencies, including dependencies to help wit
 If you want to install only the dependencies needed to run your agent, run this command:
 
 ```poetry install --no-dev```
-
-Set the environment to be in your project directory:
-
-```poetry config virtualenvs.in-project true```
 
 Activate the virtual environment:
 
@@ -82,10 +82,17 @@ your Github or Gitlab account. This will be known as our 'remote'.
 
 When you push to your repo, note that the default branch is called 'main'.
 
+## Publishing to PyPi
+
+Publishing your Agent module to PyPi is automated through the continuous integration workflow provided in `~/.github/workflows/publish_to_pypi.yml`.
+You can update that Github Workflow with your credentials to ensure that publishing to PyPi will succeed. The default behavior of
+that workflow is to publish to PyPi when a release has been published. If you want to change this behavior, you can modify the
+workflow to publish to PyPi based on whatever desired event; see [Github Workflows docs](https://docs.github.com/en/actions/using-workflows/triggering-a-workflow)
+on how to change the events that trigger a workflow.
 
 ## Optional Configurations
 
-## Precommit
+### Precommit
 
 Install pre-commit hooks:
 
