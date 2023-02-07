@@ -20,14 +20,25 @@ starting point the agent templates would not be what they are today!
 Install all the
 [requirements](https://pawamoy.github.io/copier-poetry/requirements).
 
-NOTE: We highly recommend using the copier as a CLI app. To install copier and use it as a CLI tool,
-you will need `pipx` installed. However, you might not be able to install copier via `pipx` due to a [bug in copier](https://github.com/copier-org/copier/issues/574).
+NOTE: We recommend using the copier as a CLI app. To install copier and use it as a CLI tool,
+you can use `pip` to install in a virtual environment like venv
 
-If you are having problems installing copier with `pipx`, try installing copier using the following [workaround](https://github.com/copier-org/copier/issues/574#issuecomment-1046708983):
+Note: Since this version of volttron-copier-template requires copier<6.0.0. 
+We pin the copier isntallation to copier==5.0.1.
+and due to a [bug in copier (issue574)](https://github.com/copier-org/copier/issues/574), we will need to patch
+it with MarkupSafe==2.0.1
 
+### Create and activate a venv
 ```shell
-pipx install copier
-pipx inject copier "MarkupSafe<2.1.0"
+$ python3 -m venv env-copier
+$ source env-copier/bin/activate
+(env-copier) $
+```
+
+### Install the desired copier version and bug-patch
+```shell
+(env-copier) $ pip install copier==5.0.1
+(env-copier) $ pip install MarkupSafe==2.0.1
 ```
 
 
