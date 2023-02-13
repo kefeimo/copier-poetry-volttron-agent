@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "[[ python_package_distribution_name ]]"
+name = "{{ python_package_distribution_name }}"
 version = "0.1.0"
-description = "[[ project_description ]]"
-authors = ["[[ author_fullname ]] <[[ author_email ]]>"]
-license = "[[ copyright_license ]]"
+description = "{{ project_description }}"
+authors = ["{{ author_fullname }} <{{ author_email }}>"]
+license = "{{ copyright_license }}"
 readme = "README.md"
-repository = "https://[[ repository_provider ]]/[[ repository_namespace ]]/[[ repository_name ]]"
-homepage = "https://[[ repository_provider ]]/[[ repository_namespace ]]/[[ repository_name ]]"
+repository = "https://{{ repository_provider }}/{{ repository_namespace }}/{{ repository_name }}"
+homepage = "https://{{ repository_provider }}/{{ repository_namespace }}/{{ repository_name }}"
 keywords = []
-packages = [ { include = "[[ python_package_import_name ]]", from = "src" } ]
+packages = [ { include = "{{ python_package_import_name }}", from = "src" } ]
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "Intended Audience :: Science/Research",
@@ -51,7 +51,7 @@ column_limit = 99
 split_before_logical_operator = true
 
 [tool.poetry.scripts]
-[[ python_package_command_line_name ]] = "[[ python_package_import_name ]].agent:main"
+{{ python_package_command_line_name }} = "{{ python_package_import_name }}.agent:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

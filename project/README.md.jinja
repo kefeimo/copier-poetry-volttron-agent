@@ -1,16 +1,16 @@
-# [[ project_name ]]
+# {{ project_name }}
 
 [% if repository_provider == "gitlab.com" -%]
-[![pipeline status](https://gitlab.com/[[ repository_namespace ]]/[[ repository_name ]]/badges/main/pipeline.svg)](https://gitlab.com/[[ repository_namespace ]]/[[ repository_name ]]/pipelines)
-[![coverage report](https://gitlab.com/[[ repository_namespace ]]/[[ repository_name ]]/badges/main/coverage.svg)](https://gitlab.com/[[ repository_namespace ]]/[[ repository_name ]]/commits/master)
+[![pipeline status](https://gitlab.com/{{ repository_namespace }}/{{ repository_name }}/badges/main/pipeline.svg)](https://gitlab.com/{{ repository_namespace }}/{{ repository_name }}/pipelines)
+[![coverage report](https://gitlab.com/{{ repository_namespace }}/{{ repository_name }}/badges/main/coverage.svg)](https://gitlab.com/{{ repository_namespace }}/{{ repository_name }}/commits/master)
 [% elif repository_provider == "github.com" -%]
-[![ci](https://github.com/[[ repository_namespace ]]/[[ repository_name ]]/workflows/ci/badge.svg)](https://github.com/[[ repository_namespace ]]/[[ repository_name ]]/actions?query=workflow%3Aci)
+[![ci](https://github.com/{{ repository_namespace }}/{{ repository_name }}/workflows/ci/badge.svg)](https://github.com/{{ repository_namespace }}/{{ repository_name }}/actions?query=workflow%3Aci)
 [% endif -%]
-[![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://[[ repository_namespace ]].[[ repository_provider[:-4] ]].io/[[ repository_name ]]/)
-[![pypi version](https://img.shields.io/pypi/v/[[ repository_name ]].svg)](https://pypi.org/project/[[ repository_name ]]/)
+[![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://{{ repository_namespace }}.{{ repository_provider[:-4] }}.io/{{ repository_name }}/)
+[![pypi version](https://img.shields.io/pypi/v/{{ repository_name }}.svg)](https://pypi.org/project/{{ repository_name }}/)
 
 
-[[ project_description ]]
+{{ project_description }}
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@
 * Poetry
 
 ### Python
-[[ project_name ]] requires Python 3.8 or above.
+{{ project_name }} requires Python 3.8 or above.
 
 
 To install Python 3.8, we recommend using [pyenv](https://github.com/pyenv/pyenv).
