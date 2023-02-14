@@ -11,25 +11,14 @@ starting point the agent templates would not be what they are today!
 # Quick setup and usage
 
 ## Prerequisites
+This version of copier-poetry-volttron-agent template relies on copier >= 7. 
+To use copier
+* Install Python 3.7 or newer (3.8 or newer if you're on Windows).
+* Install Git 2.27 or newer.
+* To use as a CLI app: pipx install copier
+* To use as a library: pip install copier or conda install -c conda-forge 
 
-* [git v2](https://git-scm.com/)
-* Python 3 (default python should point to python3)
-* [Copier](https://copier.readthedocs.io/en/stable/)
-
-
-Install all the
-[requirements](https://pawamoy.github.io/copier-poetry/requirements).
-
-NOTE: We highly recommend using the copier as a CLI app. To install copier and use it as a CLI tool,
-you will need `pipx` installed. However, you might not be able to install copier via `pipx` due to a [bug in copier](https://github.com/copier-org/copier/issues/574).
-
-If you are having problems installing copier with `pipx`, try installing copier using the following [workaround](https://github.com/copier-org/copier/issues/574#issuecomment-1046708983):
-
-```shell
-pipx install copier
-pipx inject copier "MarkupSafe<2.1.0"
-```
-
+Please see more detail at [Copier Installation](https://copier.readthedocs.io/en/stable/#installation)
 
 ## Usage
 
@@ -66,7 +55,6 @@ template version. See [documentation for this flag](https://copier.readthedocs.i
 - Tests run with [pytest](https://github.com/pytest-dev/pytest) and plugins,
   with [coverage](https://github.com/nedbat/coveragepy) support
 - Support for GitHub workflow and Gitlab CI
-- Python 3.8 or above
 - Auto-generated `CHANGELOG.md` from git commits (using Angular message style)
 - All licenses from [choosealicense.com](https://choosealicense.com/appendix/)
 
