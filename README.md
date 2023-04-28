@@ -40,17 +40,17 @@ takes the form of:
 
 The following is an example:
 ```bash
-copier "https://github.com/VOLTTRON/copier-poetry-volttron-agent.git" /path/to/your/new/project
+copier "https://github.com/VOLTTRON/copier-poetry-volttron-agent.git" /path/to/your/new/project --vcs-ref=HEAD
 ```
 
 Or even shorter:
 
 ```bash
-copier "gh:VOLTTRON/copier-poetry-volttron-agent" /path/to/your/new/project
+copier "gh:VOLTTRON/copier-poetry-volttron-agent" /path/to/your/new/project --vcs-ref=HEAD
 ```
 
-NOTE: By default, copier use the latest release found in the template git tags.
-want to use a specific template version, use the `--vcs-ref` flag, which takes a commit hash associated with your desired
+NOTE: By default, copier use the latest release found in the template git tags. Use `--vcs-ref=HEAD` to reinforce this behavior.
+If you want to use a specific template version, use the `--vcs-ref` flag, which takes a commit hash associated with your desired
 template version. See [documentation for this flag](https://copier.readthedocs.io/en/latest/configuring/#vcs_ref).
 
 
