@@ -15,6 +15,7 @@ This version of copier-poetry-volttron-agent template relies on copier >= 7.
 To use copier
 * Install Python 3.7 or newer (3.8 or newer if you're on Windows).
 * Install Git 2.27 or newer.
+* Install python3-pip
 * To use as a CLI app: pipx install copier
 * To use as a library: pip install copier or conda install -c conda-forge 
 
