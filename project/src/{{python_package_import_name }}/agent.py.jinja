@@ -55,7 +55,7 @@ class {{ python_agent_class_name }}(Agent):
 
     def __init__(self, setting1=1, setting2="some/random/topic", **kwargs):
         super({{ python_agent_class_name }}, self).__init__(**kwargs)
-         _log.debug("vip_identity: " + self.core.identity)
+        _log.debug("vip_identity: " + self.core.identity)
 
         self.setting1 = setting1
         self.setting2 = setting2
