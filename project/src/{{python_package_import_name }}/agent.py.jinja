@@ -24,15 +24,15 @@ utils.setup_logging()
 _log = logging.getLogger(__name__)
 
 
-def [[ python_package_import_name ]](config_path, **kwargs):
+def {{ python_package_import_name }}(config_path, **kwargs):
     """
     Parses the Agent configuration and returns an instance of
     the agent created using that configuration.
 
     :param config_path: Path to a configuration file.
     :type config_path: str
-    :returns: [[ python_agent_class_name ]]
-    :rtype: [[ python_agent_class_name ]]
+    :returns: {{ python_agent_class_name }}
+    :rtype: {{ python_agent_class_name }}
     """
     try:
         config = utils.load_config(config_path)
@@ -45,17 +45,17 @@ def [[ python_package_import_name ]](config_path, **kwargs):
     setting1 = int(config.get('setting1', 1))
     setting2 = config.get('setting2', "some/random/topic")
 
-    return [[ python_agent_class_name ]](setting1, setting2, **kwargs)
+    return {{ python_agent_class_name }}(setting1, setting2, **kwargs)
 
 
-class [[ python_agent_class_name ]](Agent):
+class {{ python_agent_class_name }}(Agent):
     """
-    [[ python_agent_class_name ]] is an example file that listens to the message bus and prints it to the log.
+    {{ python_agent_class_name }} is an example file that listens to the message bus and prints it to the log.
     """
 
     def __init__(self, setting1=1, setting2="some/random/topic", **kwargs):
-        super([[ python_agent_class_name ]], self).__init__(**kwargs)
-         _log.debug("vip_identity: " + self.core.identity)
+        super({{ python_agent_class_name }}, self).__init__(**kwargs)
+        _log.debug("vip_identity: " + self.core.identity)
 
         self.setting1 = setting1
         self.setting2 = setting2
@@ -99,10 +99,10 @@ class [[ python_agent_class_name ]](Agent):
     def _set_runtime_limit(self):
         if not self.runtime_limit and self.runtime_limit > 0:
             stop_time = datetime.datetime.now() + datetime.timedelta(seconds=self.runtime_limit)
-            _log.info('[[ python_agent_class_name ]] agent will stop at {}'.format(stop_time))
+            _log.info('{{ python_agent_class_name }} agent will stop at {}'.format(stop_time))
             self.core.schedule(stop_time, self.core.stop)
         else:
-            _log.info('No valid runtime_limit configured; [[ python_agent_class_name ]] agent will run until manually stopped')
+            _log.info('No valid runtime_limit configured; {{ python_agent_class_name }} agent will run until manually stopped')
 
     def _create_subscriptions(self, topic):
         """
@@ -170,7 +170,7 @@ def main():
     :return:
     """
     try:
-        vip_main([[ python_package_import_name ]], version=__version__)
+        vip_main({{ python_package_import_name }}, version=__version__)
     except Exception as e:
         _log.exception('unhandled exception')
 
